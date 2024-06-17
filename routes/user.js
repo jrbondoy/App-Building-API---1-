@@ -3,7 +3,7 @@ const express = require("express");
 const userController = require("../controllers/user.js")
 const auth = require("../auth.js");
 
-const {errorHandler} = auth;
+const {errorHandler, verify} = auth;
 
 const router = express.Router();
 
@@ -12,5 +12,8 @@ router.post("/register", userController.registerUser);
 
 // User login route
 router.post("/login", userController.loginUser);
+
+// Retrieve user details route
+router.get("/details", verify, userController.details);
 
 module.exports = router;

@@ -79,3 +79,21 @@ module.exports.loginUser = (req, res) => {
         return res.status(400).send({ message: 'Invalid email' });
     }
 };
+
+
+module.exports.details = (req, res) => {
+    return User.findById(req.user.id)
+    .then(user => {
+
+        if(!user){
+            // if the user has invalid token, send a message 'invalid signature'.
+            return res.status(403).send({ message: 'User not found' })
+        }else {
+            // if the user is found, return the user.
+            user.password = "";
+            return res.status(200).send({user: user});
+        }  
+    })
+    .catch(err => errorHandler(err, req, res));
+
+};
